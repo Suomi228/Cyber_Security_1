@@ -39,9 +39,9 @@ intent = int(input("ВВЕДИТЕ 1 ЕСЛИ ХОТИТЕ ЗАШИФРОВАТ�
 while intent not in range(1, 2 + 1):
     intent = int(input("ВВЕДИТЕ 1 ЕСЛИ ХОТИТЕ ЗАШИФРОВАТЬ, 2 ЕСЛИ РАСШИФРОВАТЬ:"))
 if intent == 1:
-    creep(message, circuit1, circuit2, circuit3)
+    creep(message)
 else:
-    encreep(message, circuit1, circuit2, circuit3)
+    encreep(message)
 print("\nВАШ АЛФАВИТ:"+ alphabet)
 print("ВАШ ДОПОЛНИТЕЛЬНЫЙ АЛФАВИТ НОМЕР 1:"+ circuit1)
 print("ВАШ ДОПОЛНИТЕЛЬНЫЙ АЛФАВИТ НОМЕР 2:"+ circuit2)
