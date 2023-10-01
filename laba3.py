@@ -170,7 +170,7 @@ if intent == 1:
 else:
     encreep(message)
 
-print("\nВАШ АЛФАВИТ:" + alphabet)
+print("\n                       ВАШ АЛФАВИТ:" + alphabet)
 print("ВАШ ДОПОЛНИТЕЛЬНЫЙ АЛФАВИТ НОМЕР 1:" + circuit1)
 print("ВАШ ДОПОЛНИТЕЛЬНЫЙ АЛФАВИТ НОМЕР 2:" + circuit2)
 print("ВАШ ДОПОЛНИТЕЛЬНЫЙ АЛФАВИТ НОМЕР 3:" + circuit3)

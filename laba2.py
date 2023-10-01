@@ -3,7 +3,7 @@ circuit1 = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ[]{}';:<>/?!@#%^
 circuit2 = "йцукенгшщзхъфывапролджэячсмитьбю.ЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ1234"
 circuit3 = "QWERTYUIOP[]!@#$%^&*()qwertyuiopasdfghjkl;'zxcvbnm,./|0987654321ZXCVB"
 
-def creep(message, circuit1, circuit2, circuit3):
+def creep(message):
     ciph_message = ""
     cre = 0
     for letter in message:
@@ -17,7 +17,7 @@ def creep(message, circuit1, circuit2, circuit3):
                 ciph_message += circuit3[position]
             cre += 1
     print("ВАШЕ ЗАШИФРОВАННОЕ СООБЩЕНИЕ:" + ciph_message)
-def encreep(message, circuit1, circuit2, circuit3):
+def encreep(message):
     deciph_message = ""
     enc = 0
     for letter in message:
@@ -40,6 +40,10 @@ intent = int(input("ВВЕДИТЕ 1 ЕСЛИ ХОТИТЕ ЗАШИФРОВАТ�
 while intent not in range(1, 2 + 1):
     intent = int(input("ВВЕДИТЕ 1 ЕСЛИ ХОТИТЕ ЗАШИФРОВАТЬ, 2 ЕСЛИ РАСШИФРОВАТЬ:"))
 if intent == 1:
-    creep(message, circuit1, circuit2, circuit3)
+    creep(message)
 else:
-    encreep(message, circuit1, circuit2, circuit3)
+    encreep(message)
+print("\n                       ВАШ АЛФАВИТ:" + alphabet)
+print("ВАШ ДОПОЛНИТЕЛЬНЫЙ АЛФАВИТ НОМЕР 1:" + circuit1)
+print("ВАШ ДОПОЛНИТЕЛЬНЫЙ АЛФАВИТ НОМЕР 2:" + circuit2)
+print("ВАШ ДОПОЛНИТЕЛЬНЫЙ АЛФАВИТ НОМЕР 3:" + circuit3)
