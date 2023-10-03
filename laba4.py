@@ -1,7 +1,7 @@
-def generate_vigenere_table():
+def generate_vigenere_table(key):
     alphabet = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬБЭЮЯ .,"
     table = {}
-    for row_char in alphabet:
+    for row_char in key:
         table[row_char] = {}
         for col_char in alphabet:
             row_idx = alphabet.index(row_char)
@@ -16,13 +16,13 @@ for i in range(len(alphabet)):
     numAlph[alphabet[i]] = i
 
 def encrypt(text, key):
-    code = ''
+    code = ""
     for i in range(len(text)):
         code += alphabet[(numAlph[text[i]] + numAlph[key[i % len(key)]]) % len(alphabet)]
     return code
 
 def decrypt(text, key):
-    code = ''
+    code = ""
     for i in range(len(text)):
         code += alphabet[(numAlph[text[i]] - numAlph[key[i % len(key)]] + len(alphabet)) % len(alphabet)]
     return code
@@ -37,11 +37,13 @@ if intent == 1:
 else:
     print("РАСШИФРОВАННОЕ СООБЩЕНИЕ:"+decrypt(message,key))
 
-vigenere_table = generate_vigenere_table()
 
-print("Таблица шифра Виженера:")
-for row_char in vigenere_table:
+vigenere_table = generate_vigenere_table(key)
+print("Исходный алфавит")
+print(alphabet)
+print()
+for row_char in key:
     row = ""
     for col_char in vigenere_table[row_char]:
-        row += vigenere_table[row_char][col_char] + " "
+        row += vigenere_table[row_char][col_char]
     print(row)
