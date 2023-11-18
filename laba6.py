@@ -14,10 +14,10 @@ def calculate_table_count(string, coll, line, cell_count):
 
 def read_key(coll):
     key = []
-    str_key = input("Введите ключ, отделяя каждую цифру пробелом: ").split(" ")
+    str_key = input("Введите ключ (Формат ввода: 1-1-1-1-1): ").split("-")
     while len(str_key) != coll:
         print("Количество цифр в ключе должно совпадать с количеством столбцов таблицы!")
-        str_key = input("Введите ключ, отделяя каждую цифру пробелом: ").split(" ")
+        str_key = input("Введите ключ, отделяя каждую цифру пробелом: ").split("-")
     for digit in str_key:
         key.append(int(digit) - 1)
     return key
@@ -120,9 +120,7 @@ def index_of(key, index):
     return -1
 
 
-print("Введите 1 если хотите зашифровать, 2 если расшифровать")
-
-choice = int(input())
+choice = int(input("Введите 1 если хотите зашифровать, 2 если расшифровать: "))
 str_input = input("Введите сообщение: ")
 line_input = int(input("Введите количество строк таблицы: "))
 coll_input = int(input("Введите количество столбцов таблицы: "))
@@ -131,11 +129,11 @@ arr_cell = parse_cell_coordinates(cells)
 key = read_key(coll_input)
 cnt_table = calculate_table_count(str_input, coll_input, line_input, len(arr_cell))
 
-if choice==1:
+if choice == 1:
     tables = encode_message(str_input, line_input, coll_input, arr_cell, cnt_table)
     print_encoded_message(tables, coll_input, key)
-elif choice==2:
+elif choice == 2:
     tables = decode_message(str_input, line_input, coll_input, arr_cell, cnt_table, key)
     print_decoded_message(tables)
 else:
-    print("Ошибка ввода!")
+    print("Неправильный ввод!")
