@@ -1,12 +1,5 @@
-
+import math
 import random
-
-
-def gcd(a, b):
-    while b != 0:
-        a, b = b, a % b
-    return a
-
 
 def multiplicative_inverse(e, phi):
     d = 0
@@ -52,23 +45,41 @@ def is_prime(num):
 
 def generate_keypair(p, q):
     if not (is_prime(p) and is_prime(q)):
-        raise ValueError("Both numbers must be prime.")
+        raise ValueError("Оба числа должны быть простыми!.")
 
     elif p == q:
-        raise ValueError("p and q cannot be equal.")
+        raise ValueError("p и q не могут быть одинаковыми.")
 
     n = p * q
-
+    print("Произведение p и q - Обозначим за (n): ", n)
     phi = (p - 1) * (q - 1)
+    print("Функция эйлера (p - 1) * (q - 1) - Обозначим за (phi): ", phi)
 
     e = random.randrange(1, phi)
 
-    g = gcd(e, phi)
-    while g != 1:
+    while not(is_prime(e)):
         e = random.randrange(1, phi)
-        g = gcd(e, phi)
+
+    g = math.gcd(e, phi)
+
+    while g != 1 and not(is_prime(e)):
+        e = random.randrange(1, phi)
+        g = math.gcd(e, phi)
 
     d = multiplicative_inverse(e, phi)
+
+    while d == 0:
+        e = random.randrange(1, phi)
+        while not (is_prime(e)):
+            e = random.randrange(1, phi)
+        g = math.gcd(e, phi)
+        while g != 1 and not (is_prime(e)):
+            e = random.randrange(1, phi)
+            g = math.gcd(e, phi)
+
+        d = multiplicative_inverse(e, phi)
+    print(f"Возьмем случайное простое число e (1 < e < phi), взаимно простое со значением функции Эйлера: e = {e}")
+    print(f"Вычислим d по формуле (d*e) mod(phi) = 1. (d*{e}) mod({phi}) = 1: d = {d}")
 
     return ((e, n), (d, n))
 
@@ -80,6 +91,10 @@ def sign(private_key, plaintext):
         if char in alphabet:
             message_index = alphabet.index(char)
             signature.append(pow(message_index, key, n))
+            print(f"Символ сообщения: '{char}'\n"
+                  f"Индекс символа в алфавите (m): {message_index}\n"
+                  f"Находим значение символа в подписи по формуле - (m^d) mod(n): ({message_index} ^ {key}) mod ({n}) = {pow(message_index, key, n)}\n"
+                  )
     return signature
 
 
@@ -91,44 +106,43 @@ def verify(public_key, message, signature):
         decrypted_char = pow(signature[i], key, n)
         while decrypted_char > len(alphabet):
             decrypted_char-=len(alphabet)
+        print(f"Значение символа в подписи (s):  {signature[i]}\n"
+              f"Формула операции - (s^e) mod(n): ({signature[i]} ^ {key}) mod {n} = {decrypted_char}\n"
+              f"Индекс символа в алфавите: {decrypted_char}\n"
+              f"Символ сообщения: '{alphabet[decrypted_char]}'\n"
+              )
         if message[i] != alphabet[decrypted_char]:
             flag = False
             break
     return flag
 
-# Пользовательский интерфейс
-print("1. Сделать подпись")
-print("2. Проверить подпись")
+print("Программа реализует алгоритм цифровой подписи RSA.")
+print("1 - Сделать подпись. 2 - Проверить подпись")
+alphabet = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFJHIJKLMNOPQRSTUVWXYZ .,"
+print("Используемый алфавит: ",alphabet)
 choice = int(input("Выберите действие (1 или 2): "))
 
 if choice == 1:
-    # Генерация ключей
-    p = 17
-    q = 19
+    p = int(input("Введите простое число p: "))
+    q = int(input("Введите  простое число q: "))
     public_key, private_key = generate_keypair(p, q)
 
-    # Вывод открытого ключа
-    print("Открытый ключ:", public_key)
+    print("\nОткрытый ключ (e, n):", public_key)
+    print("\nЗакрытый ключ (d, n):", private_key)
 
-    # Подпись сообщения
-    message = input("Введите сообщение для подписи: ")
+    message = input("\nВведите сообщение для подписи:")
+    print()
     signature = sign(private_key, message)
 
-    # Вывод подписи
     print("Подпись:", signature)
 
 elif choice == 2:
-    # Ввод открытого ключа, сообщения и подписи
-    #public_key = eval(input("Введите открытый ключ (в формате (e, n)): "))
-    public_key = eval('95, 323')
-    #message = input("Введите исходное сообщение: ")
-    message = "Pривет"
+    message = input("Введите исходное сообщение: ")
+    public_key = eval(input("Введите открытый ключ (в формате (e, n)): "))
     signature = eval(input("Введите подпись (в формате [signature]): "))
-    #signature = eval("[237, 289, 138, 281, 177, 248]")
-
-    # Проверка подписи
+    print()
     is_valid = verify(public_key, message, signature)
-    print("Подпись верна:", is_valid)
+    print("Верность подписи:", is_valid)
 
 else:
     print("Неверный выбор действия.")
